@@ -1,6 +1,5 @@
 // src/App.tsx
-import { useEffect, useState, useMemo } from "react";
-import FileUpload from "./components/FileUpload";
+import { useEffect, useMemo, useState } from "react";
 import {
   CartesianGrid,
   Cell,
@@ -14,6 +13,7 @@ import {
   YAxis,
 } from "recharts";
 import "./App.css";
+import FileUpload from "./components/FileUpload";
 
 type UserRole = "admin" | "teacher" | "viewer";
 
@@ -240,7 +240,7 @@ const App = () => {
                   outerRadius={80}
                   label
                 >
-                  {pieData.map((entry, index) => (
+                  {pieData.map((_, index) => (
                     <Cell key={`cell-${index}`} fill={pieColors[index % pieColors.length]} />
                   ))}
                 </Pie>
