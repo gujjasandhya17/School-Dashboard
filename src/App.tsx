@@ -57,6 +57,7 @@ const App = () => {
     { name: "Male", value: 60 },
     { name: "Female", value: 40 },
   ];
+
   const pieColors = ["#3b82f6", "#f59e0b"];
 
   return (
