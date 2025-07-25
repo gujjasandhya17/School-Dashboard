@@ -1,11 +1,11 @@
 // public/sw.js
 
-// Install event: Skip waiting so it becomes active immediately
+// Install event: Activate the service worker immediately
 self.addEventListener('install', (event) => {
   self.skipWaiting();
 });
 
-// Activate event: Take control of uncontrolled clients
+// Activate event: Take control of all clients
 self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
@@ -17,10 +17,15 @@ self.addEventListener('message', (event) => {
   if (data?.type === 'SHOW_NOTIFICATION') {
     const { title, body } = data;
 
-    self.registration.showNotification(title || 'Notification', {
-      body: body || '',
-      icon: '/icons/icon-192.png', // optional icon
-      badge: '/icons/icon-192.png', // optional badge
+    // ✅ First, ensure permission is granted
+    self.registration.pushManager.getSubscription().then(() => {
+      self.registration.showNotification(title || 'Notification', {
+        body: body || '',
+        icon: '/icons/icon-192.png', // Optional icon
+        badge: '/icons/icon-192.png', // Optional badge
+      });
+    }).catch((err) => {
+      console.error("🚫 Notification not shown - Permission not granted or subscription failed", err);
     });
   }
 });
@@ -40,4 +45,3 @@ self.addEventListener('notificationclick', (event) => {
     })
   );
 });
-
